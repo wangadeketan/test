@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from .models import Product, Category, Customer, Cart
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.shortcuts import HttpResponse
+
+from .models import Product, Category, Cart
+from .forms import NameForm
 
 
 # Create your views here.
@@ -28,18 +30,12 @@ def cart(request, product_id):
 
 def signup(request):
     if request.method == 'POST':
-        if request.POST['password1'] == request.POST['password2']:
-            if request.POST['name'] and request.POST['email'] and request.POST['password1']:
-                customer = Customer()
-                customer.email = request.POST['email']
-                customer.name = request.POST['name']
-                customer.password = request.POST['password1']
-                customer.save()
-                return redirect(home)
-            else:
-                return render(request,'shop/register.html' , {'error' : 'Please fill all the data to submit the form'})
+        customer = NameForm(request.POST)
+        if customer.is_valid():
+            customer.save()
+            return redirect(home)
         else:
-            return render(request,'shop/register.html' , {'error' : 'Please password was wrong'})
+            return HttpResponse("Form is Not Valid")
     else:
         return render(request,'shop/register.html')
 

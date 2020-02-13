@@ -35,7 +35,7 @@
 					<div class="login_form_inner register_form_inner">
 						<h3>Create an account</h3>
 						<form class="row login_form" action="{% url 'signup' %}" method="POST" >
-              {% csrf_token %}
+              				{% csrf_token %}
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 							</div>
@@ -43,13 +43,10 @@
 								<input type="text" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
               </div>
               <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password1" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="text" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
               </div>
-              <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="confirmPassword" name="password2" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
-							</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" name="submit" class="button button-register w-100">Register</button>
+								<button type="submit" value="submit" class="button button-register w-100">Register</button>
 							</div>
               {{ error }}
 						</form>
