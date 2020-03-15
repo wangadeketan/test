@@ -19,6 +19,9 @@ class Customer(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.name
+
 class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     is_ordered = models.BooleanField(default=False)

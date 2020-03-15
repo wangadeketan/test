@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.shortcuts import HttpResponse
+from django.contrib import messages
 
 from .models import Product, Category, Cart
 from .forms import NameForm
@@ -14,6 +15,10 @@ from .forms import NameForm
 def home(request):
     products = Product.objects.all()
     return render(request, 'shop/index.html' , {'product':products})
+
+def blog(request):
+    return render(request, 'shop/blog.html')
+    messages.add_messages(request, messages.INFO, 'Hello World.')
 
 def single(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
@@ -32,6 +37,8 @@ def signup(request):
     if request.method == 'POST':
         customer = NameForm(request.POST)
         if customer.is_valid():
+            import pdb
+            pdb.set_trace()
             customer.save()
             return redirect(home)
         else:
@@ -53,12 +60,3 @@ def login(request):
 def logout(request):
         auth.logout(request)
         return redirect('home')
-
-def logout(request):
-    if request.session.test_cookie_worked():
-        request.session.delete_test_cookie()
-        response = HttpResponse("dataflair<br> cookie createed")
-        return render(home)
-    else:
-        response = HttpResponse("Dataflair <br> Your browser doesnot accept cookies")
-    return response
