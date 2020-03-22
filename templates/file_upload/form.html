@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Single File Upload</title>
+</head>
+<body>
+	<form action="{% url 'zip' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.file }}
+		<input type="submit" value="Upload">
+	</form>
+</body>
+</html>
