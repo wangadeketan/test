@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.shortcuts import HttpResponse
 from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 
 from .forms import UploadFileForm, UploadZipFileForm
 from .models import Image
@@ -27,7 +28,7 @@ def upload_zip_file(request):
     	form = UploadZipFileForm(request.POST, request.FILES)
     	if form.is_valid():
     		handlezipfile(request.FILES['file'])
-    		return HttpResponseRedirect('/upload_successful')
+    		return render(request, 'form_data.html')
     else:
     	form = UploadZipFileForm()
     	return render(request, 'form.html', {'form': form})
@@ -47,8 +48,10 @@ def handlezipfile(zipfile):
 		zip.extractall() 
 		print('Done!') 
 
-	# for filename,content in fileiterator(zipfile):
-	# 	tf = TextFile()
-	# 	tf.content = c
-	# 	tf.filename = filename
-	# 	tf.save()
+def listing(request):
+    image_name = Image.objects.filter()
+    paginator = Paginator(image_name, 1) # Show 1 Image per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'form_data.html', {'page_obj': page_obj})
