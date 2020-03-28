@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.shortcuts import HttpResponse
 from django.contrib import messages
+from django.views.generic.list import ListView
 
-from .models import Product, Category, Cart
+from .models import Product, Category, Cart, Customer
 from .forms import NameForm
 
 
@@ -60,3 +61,19 @@ def login(request):
 def logout(request):
         auth.logout(request)
         return redirect('home')
+
+class count(ListView):
+    model = Product
+    template_name = 'shop/count.html'
+    context_object_name = 'count_data'
+
+    def get_queryset(self):
+        cusomer_list = Customer.objects.all()
+        for customer_name in cusomer_list:
+            # queryset = {'cusomer_list':Customer.objects.all(),'product_count':Product.objects.filter(cat_id=customer_name.id)}
+            # return queryset
+            product_count = Product.objects.filter(cat_id=customer_name.id)
+            cus_name = customer_name
+            queryset = {'product_count':product_count,'cus_name':cus_name}
+    
+            return queryset

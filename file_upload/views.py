@@ -4,11 +4,38 @@ from django.shortcuts import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 
+from django.views.generic import ListView
+from django.views.generic.detail import SingleObjectMixin
+
 from .forms import UploadFileForm, UploadZipFileForm
-from .models import Image
+from .models import Image, Batch
 from zipfile import *
 
 # Create your views here.
+
+class Listing(SingleObjectMixin, ListView):
+	paginate_by = 1
+	template_name = "file_upload/form_data.html"
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object(queryset=Image.objects.all())
+		return super().get(request, *args, **kwargs)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['image'] = self.object
+		return context
+
+	def get_queryset(self):
+		return self.object.book_set.all()
+
+def listing(request):
+    image_name = Image.objects.all()
+    paginator = Paginator(image_name, 1) # Show 1 Image per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'form_data.html', {'page_obj': page_obj})
 
 def upload_single_file(request):
 	if request.method == 'POST':
@@ -48,10 +75,4 @@ def handlezipfile(zipfile):
 		zip.extractall() 
 		print('Done!') 
 
-def listing(request):
-    image_name = Image.objects.filter()
-    paginator = Paginator(image_name, 1) # Show 1 Image per page.
 
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'form_data.html', {'page_obj': page_obj})

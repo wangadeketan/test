@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Customer</th>
+      <th scope="col">Product Count</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for name in queryset %}
+    <tr>
+    	<td>Customer is :{{ queryset.name }}</td>
+    	<td>Product Count is:{{ name.count }}</td>
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

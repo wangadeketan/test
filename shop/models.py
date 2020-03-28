@@ -7,12 +7,15 @@ class Category(models.Model):
 
 # Create your models here.
 class Product(models.Model):
-        cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-        name = models.CharField(max_length=255)
-        description = models.TextField(max_length=12000)
-        price = models.IntegerField(default=1)
-        photo = models.ImageField(upload_to='images/')
-        date = models.DateField(auto_now_add=True)
+    cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(max_length=12000)
+    price = models.IntegerField(default=1)
+    photo = models.ImageField(upload_to='images/')
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 class Customer(models.Model):
     name = models.CharField(max_length=255)
