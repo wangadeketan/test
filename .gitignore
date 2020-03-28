@@ -1,5 +1,9 @@
 kandil/__pycache__/*
 shop/__pycache__/*
 shop/migrations/*
+file_upload/__pycache__/*
+file_upload/migrations/*
+account/__pycache__/*
+account/migrations/*
 media/*
 db.sqlite3
